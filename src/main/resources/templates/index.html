@@ -2,7 +2,10 @@
 <html>
     <head></head>
     <body>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
+
         <div id="questions">
 
         </div>
@@ -16,21 +19,19 @@
             var ws;
             var stompClient;
             var questions = document.getElementById('questions');
-            ws = new WebSocket('ws://localhost:8080/questions');
-
+            ws = new SockJS('/questions');
             ws.onmessage = function (data) {
                 var p = document.createElement('p');
                 p.innerHTML = '<p>' + data.data + '</p>';
                 questions.appendChild(p);
             };
             $('#newQuestionForm').on("submit", function (e) {
-                    e.preventDefault();
-                    sendForm();
-                    $('#newQuestionForm').reset();
-                });
+                e.preventDefault();
+                sendForm();
+            });
 
             function sendForm() {
-                ws.send($('#questionText'.val()));
+                ws.send($('#questionText').val());
             }
 
         </script>
