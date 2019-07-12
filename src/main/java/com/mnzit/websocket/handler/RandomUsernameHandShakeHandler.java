@@ -20,7 +20,7 @@ public class RandomUsernameHandShakeHandler extends DefaultHandshakeHandler {
 
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
-        final String username = "user- " + randomString();
+        final String username = "user-" + randomString();
         return new Principal() {
             @Override
             public String getName() {

@@ -28,6 +28,6 @@ public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/app")
-                .enableSimpleBroker("/topic", "/queue");
+                .enableStompBrokerRelay("/topic", "/queue");
     }
 }
