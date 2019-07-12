@@ -5,6 +5,7 @@
  */
 package com.mnzit.websocket.config;
 
+import com.mnzit.websocket.handler.RandomUsernameHandShakeHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -21,7 +22,7 @@ public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/questions").withSockJS();
+        registry.addEndpoint("/questions").setHandshakeHandler(new RandomUsernameHandShakeHandler()).withSockJS();
     }
 
     @Override
