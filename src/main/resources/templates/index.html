@@ -16,6 +16,7 @@
         </form>
 
         <script>
+//            stompClient.send("/user/user- zbfwkmgnmc/queue/private",{},"Hi");
             var ws;
             var stompClient;
             var questions = document.getElementById('questions');
@@ -26,6 +27,9 @@
                     var p = document.createElement('p');
                     p.innerHTML = '<p>' + message.body + '</p>';
                     questions.appendChild(p);
+                });
+                stompClient.subscribe("/user/queue/private", function (message) {
+                    alert(message.body);
                 });
             }, function (error) {
                 console.log("STOMP protocol error " + error);
