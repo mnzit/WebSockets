@@ -5,6 +5,7 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
         <div id="questions">
 
@@ -20,18 +21,23 @@
             var stompClient;
             var questions = document.getElementById('questions');
             ws = new SockJS('/questions');
-            ws.onmessage = function (data) {
-                var p = document.createElement('p');
-                p.innerHTML = '<p>' + data.data + '</p>';
-                questions.appendChild(p);
-            };
+            stompClient = Stomp.over(ws);
+            stompClient.connect({}, function (frame) {
+                stompClient.subscribe("/topic/questions", function (message) {
+                    var p = document.createElement('p');
+                    p.innerHTML = '<p>' + message.body + '</p>';
+                    questions.appendChild(p);
+                });
+            }, function (error) {
+                console.log("STOMP protocol error " + error);
+            });
             $('#newQuestionForm').on("submit", function (e) {
                 e.preventDefault();
                 sendForm();
             });
 
             function sendForm() {
-                ws.send($('#questionText').val());
+                stompClient.send("/topic/questions", {}, $('#questionText').val());
             }
 
         </script>
