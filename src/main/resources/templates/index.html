@@ -1,0 +1,39 @@
+ 
+<html>
+    <head></head>
+    <body>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <div id="questions">
+
+        </div>
+        <form id="newQuestionForm" action="/new-question" method="POST">
+            <input type="text" id="questionText" name="question">
+            <button id ="sendQuestionButton" type="submit">Submit</button>
+        </form>
+
+        <script>
+
+            var ws;
+            var stompClient;
+            var questions = document.getElementById('questions');
+            ws = new WebSocket('ws://localhost:8080/questions');
+
+            ws.onmessage = function (data) {
+                var p = document.createElement('p');
+                p.innerHTML = '<p>' + data.data + '</p>';
+                questions.appendChild(p);
+            };
+            $('#newQuestionForm').on("submit", function (e) {
+                    e.preventDefault();
+                    sendForm();
+                    $('#newQuestionForm').reset();
+                });
+
+            function sendForm() {
+                ws.send($('#questionText'.val()));
+            }
+
+        </script>
+    </body>
+</html>
+
