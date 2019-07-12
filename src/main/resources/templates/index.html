@@ -36,7 +36,7 @@
             });
 
             function sendForm() {
-                stompClient.send("/topic/questions", {}, $('#questionText').val());
+                stompClient.send("/app/questions", {}, $('#questionText').val());
             }
 
         </script>
